@@ -54,6 +54,7 @@ rebase:
     inc r9d
     jmp .parse_digits
 
+    ret
 .convert:
     ; Part 2 - Convert the number back to a list of digits
     ; %rbx - number of output digits
