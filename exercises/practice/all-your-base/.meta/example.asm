@@ -36,10 +36,9 @@ rebase:
     cmp r9d, esi
     je .convert
 
-    ret
     ; Load next digit to add
     mov r10d, dword [rdi + (r9 * 4)]
-
+    
     cmp r9d, esi
     je .convert
 
@@ -55,8 +54,8 @@ rebase:
     inc r9d
     jmp .parse_digits
 
-    ret
 .convert:
+
     ; Part 2 - Convert the number back to a list of digits
     ; %rbx - number of output digits
     ; %edx - will have the next digit
@@ -74,15 +73,11 @@ rebase:
 
     ; Copy the number of digits to return
     mov eax, ebx
-
-    cmp ebx, 0
-    je .return
-
     xor rbx, rbx
 
 .add_to_list:
     pop r10
-    mov dword [rcx + (rbx* 4)], r10d
+    ; mov [rcx + (rbx * 4)], r10d
     inc rbx
     cmp rbx, rax
     jne .add_to_list
