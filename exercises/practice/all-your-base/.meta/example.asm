@@ -36,6 +36,7 @@ rebase:
     cmp r9d, esi
     je .convert
 
+    ret
     ; Load next digit to add
     mov r10d, dword [rdi + (r9 * 4)]
 
