@@ -55,6 +55,9 @@ rebase:
     jmp .parse_digits
 
 .convert:
+    ; TODO: Temporary return to test segfault fix
+    ret
+
     ; Part 2 - Convert the number back to a list of digits
     ; %rbx - number of output digits
     ; %edx - will have the next digit
