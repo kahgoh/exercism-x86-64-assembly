@@ -30,6 +30,7 @@ rebase:
     xor r9, r9
     xor rax, rax
 
+    ret
 .parse_digits:
     xor r10, r10
 
