@@ -30,7 +30,6 @@ rebase:
     xor r9, r9
     xor rax, rax
 
-    ret
 .parse_digits:
     xor r10, r10
 
@@ -56,9 +55,6 @@ rebase:
     jmp .parse_digits
 
 .convert:
-    ; TODO: Temporary return to test segfault fix
-    ret
-
     ; Part 2 - Convert the number back to a list of digits
     ; %rbx - number of output digits
     ; %edx - will have the next digit
