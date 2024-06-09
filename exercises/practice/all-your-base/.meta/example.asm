@@ -2,20 +2,20 @@ section .text
 global rebase
 
 rebase:
-    push    rbp
-    mov     rbp, rsp
-    mov     qword [rbp - 8], rdi
-    mov     dword [rbp - 12], esi
-    mov     dword [rbp - 16], edx
-    mov     qword [rbp - 24], rcx
-    mov     dword [rbp - 28], r8d
-    mov     rax, qword [rbp - 24]
-    mov     dword [rax], 0
-    mov     rax, qword [rbp - 24]
-    mov     dword [rax + 4], 1
-    mov     eax, 8
-    pop     rbp
-    ret
+    ; push    rbp
+    ; mov     rbp, rsp
+    ; mov     qword [rbp - 8], rdi
+    ; mov     dword [rbp - 12], esi
+    ; mov     dword [rbp - 16], edx
+    ; mov     qword [rbp - 24], rcx
+    ; mov     dword [rbp - 28], r8d
+    ; mov     rax, qword [rbp - 24]
+    ; mov     dword [rax], 0
+    ; mov     rax, qword [rbp - 24]
+    ; mov     dword [rax + 4], 1
+    ; mov     eax, 8
+    ; pop     rbp
+    ; ret
 
     ; Argument registers
     ; %rdi - input digits array
@@ -88,14 +88,13 @@ rebase:
 
     ; Copy the number of digits to return
     mov eax, ebx
-    xor rbx, rbx
 
 .add_to_list:
     pop r10
-    mov dword [rcx + (rbx * 4)], r10d
-    inc rbx
-    cmp rbx, rax
-    jne .add_to_list
+    mov dword [rcx], r10d
+    add rcx, 4
+    dec ebx
+    jnz .add_to_list
 
 .return:
     ret
