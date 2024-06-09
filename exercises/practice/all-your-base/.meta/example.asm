@@ -2,6 +2,9 @@ section .text
 global rebase
 
 rebase:
+    mov dword [rcx], 1
+    mov rax, 1
+    ret
     ; push    rbp
     ; mov     rbp, rsp
     ; mov     qword [rbp - 8], rdi
