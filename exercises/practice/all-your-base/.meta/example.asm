@@ -2,9 +2,6 @@ section .text
 global rebase
 
 rebase:
-    mov dword [rcx], 1
-    mov rax, 1
-    ret
     ; push    rbp
     ; mov     rbp, rsp
     ; mov     qword [rbp - 8], rdi
@@ -83,7 +80,9 @@ rebase:
     xor rdx, rdx
 
     div r8d
-    push rdx
+
+    ; Copy remainder to array
+    mov [rcx + 4 * rbx], rdx
 
     inc rbx
     cmp eax, 0
@@ -92,12 +91,26 @@ rebase:
     ; Copy the number of digits to return
     mov eax, ebx
 
+    ; Use rbx to track index down
+    ; Use r9 to track index up
+    xor r9, r9
+
+    ; Subtract one from rbx to point it to the last
+    dec rbx
+
 .add_to_list:
-    pop r10
-    mov dword [rcx], r10d
-    add rcx, 4
-    dec ebx
-    jnz .add_to_list
+    cmp r9, rbx
+    jge .return
+
+    mov r10d, dword [rcx + (r9 * 4)]
+    mov r11d, dword [rcx + (rbx * 4)]
+
+    mov dword [rcx + (rbx * 4)], r10d
+    mov dword [rcx + (r9 * 4)], r11d 
+
+    inc r9
+    dec rbx
+    jmp .add_to_list
 
 .return:
     ret
