@@ -77,7 +77,7 @@ rebase:
 
 .add_to_list:
     pop r10
-    movd dword [rcx + (rbx * 4)], r10d
+    movd dword ptr [rcx + (rbx * 4)], r10d
     inc rbx
     cmp rbx, rax
     jne .add_to_list
