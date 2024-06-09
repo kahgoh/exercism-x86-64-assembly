@@ -2,6 +2,21 @@ section .text
 global rebase
 
 rebase:
+    push    rbp
+    mov     rbp, rsp
+    mov     qword ptr [rbp - 8], rdi
+    mov     dword ptr [rbp - 12], esi
+    mov     dword ptr [rbp - 16], edx
+    mov     qword ptr [rbp - 24], rcx
+    mov     dword ptr [rbp - 28], r8d
+    mov     rax, qword ptr [rbp - 24]
+    mov     dword ptr [rax], 0
+    mov     rax, qword ptr [rbp - 24]
+    mov     dword ptr [rax + 4], 1
+    mov     eax, 8
+    pop     rbp
+    ret
+
     ; Argument registers
     ; %rdi - input digits array
     ; %esi - number of input digits
