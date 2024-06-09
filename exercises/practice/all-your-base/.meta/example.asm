@@ -2,13 +2,13 @@ section .text
 global rebase
 
 rebase:
-    ; push    rbp
-    ; mov     rbp, rsp
-    ; mov     qword [rbp - 8], rdi
-    ; mov     dword [rbp - 12], esi
-    ; mov     dword [rbp - 16], edx
-    ; mov     qword [rbp - 24], rcx
-    ; mov     dword [rbp - 28], r8d
+    push    rbp
+    mov     rbp, rsp
+    mov     qword [rbp - 8], rdi
+    mov     dword [rbp - 12], esi
+    mov     dword [rbp - 16], edx
+    mov     qword [rbp - 24], rcx
+    mov     dword [rbp - 28], r8d
     ; mov     rax, qword [rbp - 24]
     ; mov     dword [rax], 0
     ; mov     rax, qword [rbp - 24]
@@ -105,6 +105,7 @@ rebase:
     mov r10d, dword [rcx + (r9 * 4)]
     mov r11d, dword [rcx + (rbx * 4)]
 
+    mov rcx, qword [rbp - 24]
     mov dword [rcx + (rbx * 4)], r10d
     mov dword [rcx + (r9 * 4)], r11d 
 
@@ -113,13 +114,16 @@ rebase:
     jmp .add_to_list
 
 .return:
+    pop rbp
     ret
 
 .bad_base:
+    pop rbp
     mov rax, -1
     ret
 
 .bad_digit:
+    pop rbp
     mov rax, -2
     ret
 
