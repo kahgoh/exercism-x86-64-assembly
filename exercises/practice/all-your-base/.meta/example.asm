@@ -77,7 +77,8 @@ rebase:
 
 .add_to_list:
     pop r10
-    mov [rcx + (rbx * 4)], r10d
+    ; mov [rcx + (rbx * 4)], r10d
+    mov [rcx], r10d
     inc rbx
     cmp rbx, rax
     jne .add_to_list
