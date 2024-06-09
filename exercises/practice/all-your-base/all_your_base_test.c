@@ -1,6 +1,7 @@
 // Version: 0
 
 #include "stdint.h"
+#include "stdio.h"
 #include "vendor/unity.h"
 
 #define BUFFER_SIZE 100
@@ -11,6 +12,7 @@
 extern int32_t rebase(const int32_t* in_digits, int32_t digits_count, int32_t in_base, int32_t* out_array, int32_t out_base);
 
 void setUp(void) {
+  printf("Size of int: %ld\n", sizeof(int));
 }
 
 void tearDown(void) {
