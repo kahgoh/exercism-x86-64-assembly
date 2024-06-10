@@ -2,21 +2,6 @@ section .text
 global rebase
 
 rebase:
-    push    rbp
-    mov     rbp, rsp
-    mov     qword [rbp - 8], rdi
-    mov     dword [rbp - 12], esi
-    mov     dword [rbp - 16], edx
-    mov     qword [rbp - 24], rcx
-    mov     dword [rbp - 28], r8d
-    ; mov     rax, qword [rbp - 24]
-    ; mov     dword [rax], 0
-    ; mov     rax, qword [rbp - 24]
-    ; mov     dword [rax + 4], 1
-    ; mov     eax, 8
-    ; pop     rbp
-    ; ret
-
     ; Argument registers
     ; %rdi - input digits array
     ; %esi - number of input digits
@@ -25,10 +10,6 @@ rebase:
     ; %r8d - output base
 
     xor rax, rax
-    xor rbx, rbx
-
-    ; Return
-    ; %rax - number of digits in output array
 
     ; First, check the bases
     ; remember - ints are 32 bits!
@@ -38,7 +19,7 @@ rebase:
     cmp r8d, 2
     jl .bad_base
 
-    ; Part 1 - Parse the input digits
+    ; Part 1 - Parse the input digits into a number
     ; %r9d - digit's index
     ; %eax - sum & result
     ; %r10 - next digit
@@ -72,9 +53,9 @@ rebase:
 .convert:
 
     ; Part 2 - Convert the number back to a list of digits
-    ; %rbx - number of output digits
+    ; %r9 - number of output digits
     ; %edx - will have the next digit
-    xor rbx, rbx
+    xor r9, r9
 
 .get_digits_loop:
     xor rdx, rdx
@@ -82,48 +63,42 @@ rebase:
     div r8d
 
     ; Copy remainder to array
-    mov [rcx + 4 * rbx], rdx
+    mov [rcx + 4 * r9], rdx
 
-    inc rbx
+    inc r9
     cmp eax, 0
     jg .get_digits_loop
 
     ; Copy the number of digits to return
-    mov eax, ebx
+    mov rax, r9
 
-    ; Use rbx to track index down
-    ; Use r9 to track index up
-    xor r9, r9
-
-    ; Subtract one from rbx to point it to the last
-    dec rbx
+    ; The digits are reversed. So reverse them to get the result.
+    ; %rcx track the address from the beginning of list
+    ; %r9 track the address from the end
+    lea r9, [rcx + 4*(rax - 1)]
 
 .add_to_list:
-    cmp r9, rbx
+    cmp rcx, r9
     jge .return
 
-    mov r10d, dword [rcx + (r9 * 4)]
-    mov r11d, dword [rcx + (rbx * 4)]
+    mov r10d, dword [rcx]
+    mov r11d, dword [r9]
 
-    mov rcx, qword [rbp - 24]
-    mov dword [rcx + (rbx * 4)], r10d
-    mov dword [rcx + (r9 * 4)], r11d 
+    mov dword [r9], r10d
+    mov dword [rcx], r11d 
 
-    inc r9
-    dec rbx
+    add rcx, 4
+    sub r9, 4
     jmp .add_to_list
 
 .return:
-    pop rbp
     ret
 
 .bad_base:
-    pop rbp
     mov rax, -1
     ret
 
 .bad_digit:
-    pop rbp
     mov rax, -2
     ret
 
